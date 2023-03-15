@@ -2,8 +2,9 @@ import { BingUrlConverter } from "./websites/bing"
 import { DuckDuckGoUrlConverter } from "./websites/duckduckgo"
 import { GoogleUrlConverter } from "./websites/google"
 import { YahooUrlConverter } from "./websites/yahoo"
+import { YandexUrlConverter } from "./websites/yandex"
 
-const websites = [GoogleUrlConverter, DuckDuckGoUrlConverter, BingUrlConverter, YahooUrlConverter]
+const websites = [GoogleUrlConverter, DuckDuckGoUrlConverter, BingUrlConverter, YahooUrlConverter, YandexUrlConverter]
 
 chrome.tabs.onUpdated.addListener((tabID, changeInfo, tab) => {
     const url = tab.url
