@@ -3,10 +3,10 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter";
 
 export const DuckDuckGoUrlConverter: WebsiteUrlConverter = {
     name: "DuckDuckGo",
-    isUrlValid: function (url: URL): boolean {
-        return isDomain(url, "duckduckgo.com") && isSearchingImages(url) && urlIsntTransparent(url) && isQueryTriggers(url)
+    isUrlValid: async function (url: URL): Promise<boolean> {
+        return isDomain(url, "duckduckgo.com") && isSearchingImages(url) && urlIsntTransparent(url) && await isQueryTriggers(url)
     },
-    convertURL: function (url: URL): URL {
+    convertURL: async function (url: URL): Promise<URL> {
         const newUrlParams = new URLSearchParams(url.search)
         var settings = newUrlParams.get("iaf")?.split(",")
 
@@ -32,13 +32,13 @@ function isSearchingImages(url: URL): boolean {
 /**
  * Check if user searching transparent images
  */
-function isQueryTriggers(url: URL): boolean {
+async function isQueryTriggers(url: URL): Promise<boolean> {
     const query =  url.searchParams.get("q")
     
     if (!query)
         return false
 
-    return isUserSearchingTransparent(query)
+    return await isUserSearchingTransparent(query)
 }
 
 function urlIsntTransparent(url: URL): boolean {

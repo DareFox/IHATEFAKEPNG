@@ -1,16 +1,16 @@
-import { triggerWords } from "../words"
+import { getWords } from "../options"
 
 /**
  * Check if user searching transparent images in query
  * @param query user search
  * @returns true if user searcing transparent images
  */
-export function isUserSearchingTransparent(query: string | undefined | null): boolean {
+export async function isUserSearchingTransparent(query: string | undefined | null): Promise<boolean> {
     if (!query) {
         return false
     }
     
-    for (const word of triggerWords) {
+    for (const word of await getWords()) {
         if (query.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
             return true 
     }

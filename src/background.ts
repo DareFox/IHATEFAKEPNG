@@ -6,7 +6,7 @@ import { YandexUrlConverter } from "./websites/yandex"
 
 const websites = [GoogleUrlConverter, DuckDuckGoUrlConverter, BingUrlConverter, YahooUrlConverter, YandexUrlConverter]
 
-chrome.tabs.onUpdated.addListener((tabID, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     const url = tab.url
     
     if (!url)
@@ -15,8 +15,8 @@ chrome.tabs.onUpdated.addListener((tabID, changeInfo, tab) => {
     const urlObj = new URL(url)
 
     for (const website of websites) {
-        if (website.isUrlValid(urlObj)) {
-            const newUrl = website.convertURL(urlObj)
+        if (await website.isUrlValid(urlObj)) {
+            const newUrl = await website.convertURL(urlObj)
 
             chrome.tabs.update(tabID, {
                 url: newUrl.toString()

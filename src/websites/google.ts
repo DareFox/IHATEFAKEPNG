@@ -3,13 +3,13 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter"
 
 export const GoogleUrlConverter: WebsiteUrlConverter = {
     name: "Google",
-    isUrlValid: function (url: URL): boolean {
+    isUrlValid: async function (url: URL): Promise<boolean> {
         return isDomain(url, "google.") && 
         isSearchingImages(url) &&
-        isQueryTriggers(url) &&
+        await isQueryTriggers(url) &&
         urlIsntTransparent(url) 
     },
-    convertURL: function (url: URL): URL {
+    convertURL: async function (url: URL): Promise<URL> {
         const newUrlParams = new URLSearchParams(url.search)
         newUrlParams.set("tbs", "ic:trans")
 
@@ -21,13 +21,13 @@ export const GoogleUrlConverter: WebsiteUrlConverter = {
  * Check if user searching transparent images
  * @param url Google URL
  */
-function isQueryTriggers(url: URL): boolean {    
+async function isQueryTriggers(url: URL): Promise<boolean> {    
     const query =  url.searchParams.get("q")
     
     if (!query)
         return false
 
-    return isUserSearchingTransparent(query)
+    return await isUserSearchingTransparent(query)
 }
 
 /**

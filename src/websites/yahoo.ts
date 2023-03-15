@@ -3,10 +3,10 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter";
 
 export const YahooUrlConverter: WebsiteUrlConverter = {
     name: "Yahoo",
-    isUrlValid: function (url: URL): boolean {
-        return isDomain(url, "images.search.yahoo.com") && isQueryTriggers(url) && urlIsntTransparent(url)
+    isUrlValid: async function (url: URL): Promise<boolean> {
+        return isDomain(url, "images.search.yahoo.com") && await isQueryTriggers(url) && urlIsntTransparent(url)
     },
-    convertURL: function (url: URL): URL {
+    convertURL: async function (url: URL): Promise<URL> {
         const newUrlParams = new URLSearchParams(url.search)
         newUrlParams.set("imgty", "transparent")
 
@@ -14,8 +14,8 @@ export const YahooUrlConverter: WebsiteUrlConverter = {
     }
 }
 
-function isQueryTriggers(url: URL): boolean {
-    return isUserSearchingTransparent(url.searchParams.get("p"))
+async function isQueryTriggers(url: URL): Promise<boolean> {
+    return await isUserSearchingTransparent(url.searchParams.get("p"))
 }
 
 function urlIsntTransparent(url: URL): boolean {
