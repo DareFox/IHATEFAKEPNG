@@ -1,7 +1,7 @@
 import { combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common";
 import { WebsiteUrlConverter } from "./websiteUrlConverter";
 
-const BingUrlConverter: WebsiteUrlConverter = {
+export const BingUrlConverter: WebsiteUrlConverter = {
     name: "Bing",
     isUrlValid: function (url: URL): boolean {
         return isDomain(url, "bing.com") && isSearchingImages(url) && isUrlAlreadyTransparent(url) && isQueryTriggers(url)
