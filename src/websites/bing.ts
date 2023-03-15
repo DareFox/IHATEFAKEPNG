@@ -19,7 +19,7 @@ export const BingUrlConverter: WebsiteUrlConverter = {
         })
 
         settings.push("filterui:photo-transparent")
-        newUrlParams.set("iaf", settings.join('+'))
+        newUrlParams.set("qft", settings.join('+'))
 
         return combineParamsAndUrl(url, newUrlParams)
     }
