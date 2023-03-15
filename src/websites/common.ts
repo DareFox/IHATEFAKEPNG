@@ -5,7 +5,11 @@ import { triggerWords } from "../words"
  * @param query user search
  * @returns true if user searcing transparent images
  */
-export function isUserSearchingTransparent(query: string): boolean {
+export function isUserSearchingTransparent(query: string | undefined | null): boolean {
+    if (!query) {
+        return false
+    }
+    
     for (const word of triggerWords) {
         if (query.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
             return true 
