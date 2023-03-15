@@ -3,10 +3,10 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter";
 
 export const BingUrlConverter: WebsiteUrlConverter = {
     name: "Bing",
-    isUrlValid: function (url: URL): boolean {
-        return isDomain(url, "bing.com") && isSearchingImages(url) && urlIsntTransparent(url) && isQueryTriggers(url)
+    isUrlValid: async function (url: URL): Promise<boolean> {
+        return isDomain(url, "bing.com") && isSearchingImages(url) && urlIsntTransparent(url) && await isQueryTriggers(url)
     },
-    convertURL: function (url: URL): URL {
+    convertURL: async function (url: URL): Promise<URL> {
         const newUrlParams = new URLSearchParams(url.search)
         var settings = newUrlParams.get("qft")?.split("+")
 
@@ -29,8 +29,8 @@ function isSearchingImages(url: URL): boolean {
     return url.searchParams.get("form") == "HDRSC3"
 }
 
-function isQueryTriggers(url: URL): boolean {
-    return isUserSearchingTransparent(url.searchParams.get("q"))
+async function isQueryTriggers(url: URL): Promise<boolean> {
+    return await isUserSearchingTransparent(url.searchParams.get("q"))
 }
 
 function urlIsntTransparent(url: URL): boolean {
