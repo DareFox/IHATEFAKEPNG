@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "I HATE FAKE PNG",
-  "description": "Exclude from Google search non-transparent images when searching \"*smth* png\" ",
+  "description": "Exclude non-transparent images from results, when searching \"*smth* png\" ",
   "version": "1.0",
   "action": {
     "default_icon": "png.png"
@@ -10,6 +10,7 @@
     "service_worker": "out/background.js"
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "storage"
   ]
 }
