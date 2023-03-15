@@ -4,12 +4,19 @@
   "description": "Exclude from Google search non-transparent images when searching \"*smth* png\"",
   "main": "listener.js",
   "scripts": {
+  	"build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/chrome": "^0.0.224",
-    "typescript": "^4.9.5"
+    "copy-webpack-plugin": "^11.0.0",
+    "glob": "^9.3.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-merge": "^5.8.0"
   }
 }
