@@ -33,3 +33,15 @@ export function isDomain(url: URL, domain: string): boolean {
 
     return urlDomain.includes(domain) || urlDomain.includes(`.${domain}`)
 }
+
+/**
+ * Change URL parameters with anonymous function
+ * @param url URL to change
+ * @param func Anonymous function that uses provided URLSearchParams for modyfing URL params 
+ * @returns New URL with changed parameters
+ */
+export function changeParams(url: URL, func: (newParams: URLSearchParams) => void): URL {
+    const newUrlParams = new URLSearchParams(url.search)
+    func(newUrlParams)
+    return combineParamsAndUrl(url, newUrlParams)
+}

@@ -1,4 +1,4 @@
-import { combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common";
+import { changeParams, combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common";
 import { WebsiteUrlConverter } from "./websiteUrlConverter";
 
 export const YahooUrlConverter: WebsiteUrlConverter = {
@@ -7,10 +7,7 @@ export const YahooUrlConverter: WebsiteUrlConverter = {
         return isDomain(url, "images.search.yahoo.com") && await isQueryTriggers(url) && urlIsntTransparent(url)
     },
     convertURL: async function (url: URL): Promise<URL> {
-        const newUrlParams = new URLSearchParams(url.search)
-        newUrlParams.set("imgty", "transparent")
-
-        return combineParamsAndUrl(url, newUrlParams)
+        return changeParams(url, params => params.set("imgty", "transparent"))
     }
 }
 
