@@ -7,14 +7,12 @@ export async function getWords(): Promise<string[]> {
         const value = (await chrome.storage.sync.get("words"))?.words
         
         if(!value || !isStringsArray(value)) {
-            chrome.storage.sync.set({
-                "words": defaultWords
-            }).then(() => {
+            setWords(defaultWords).then(() => {
                 console.log("Updated storage to default words successfully")
             }).catch(() => {
                 console.log("Failed to update storage to default words")
             })
-
+ 
             return defaultWords
         }
 
@@ -25,4 +23,10 @@ export async function getWords(): Promise<string[]> {
 
         return defaultWords
     }
+}
+
+export async function setWords(words: string[]): Promise<void> {
+    return chrome.storage.sync.set({
+        "words": words
+    })
 }
