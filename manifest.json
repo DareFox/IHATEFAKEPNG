@@ -6,6 +6,9 @@
   "action": {
     "default_icon": "png.png"
   },
+  "background": {
+    "service_worker": "out/listener.js"
+  },
   "permissions": [
     "tabs"
   ]
