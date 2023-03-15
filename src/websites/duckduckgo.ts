@@ -4,7 +4,7 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter";
 export const DuckDuckGoUrlConverter: WebsiteUrlConverter = {
     name: "DuckDuckGo",
     isUrlValid: function (url: URL): boolean {
-        return isDuckDuckGO(url) && isSearchingImages(url) && isUrlAlreadyTransparent(url) && isQueryTriggers(url)
+        return isDuckDuckGO(url) && isSearchingImages(url) && !isUrlAlreadyTransparent(url) && isQueryTriggers(url)
     },
     convertURL: function (url: URL): URL {
         const newUrlParams = new URLSearchParams(url.search)
