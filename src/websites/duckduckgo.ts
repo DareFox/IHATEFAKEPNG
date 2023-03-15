@@ -4,7 +4,7 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter";
 export const DuckDuckGoUrlConverter: WebsiteUrlConverter = {
     name: "DuckDuckGo",
     isUrlValid: function (url: URL): boolean {
-        return isDomain(url, "duckduckgo.com") && isSearchingImages(url) && !isUrlAlreadyTransparent(url) && isQueryTriggers(url)
+        return isDomain(url, "duckduckgo.com") && isSearchingImages(url) && urlIsntTransparent(url) && isQueryTriggers(url)
     },
     convertURL: function (url: URL): URL {
         const newUrlParams = new URLSearchParams(url.search)
@@ -41,17 +41,17 @@ function isQueryTriggers(url: URL): boolean {
     return isUserSearchingTransparent(query)
 }
 
-function isUrlAlreadyTransparent(url: URL): boolean {
+function urlIsntTransparent(url: URL): boolean {
     const settings = url.searchParams.get("iaf")?.split(",") 
 
     if (!settings)
-        return false
+        return true
 
     for (const setting of settings) {
         if (setting.toLowerCase() == "type:transparent") {
-            return true
+            return false
         }
     }
 
-    return false
+    return true
 }

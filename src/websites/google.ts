@@ -7,7 +7,7 @@ export const GoogleUrlConverter: WebsiteUrlConverter = {
         return isDomain(url, "google.") && 
         isSearchingImages(url) &&
         isQueryTriggers(url) &&
-        !isUrlAlreadyTransparent(url) 
+        urlIsntTransparent(url) 
     },
     convertURL: function (url: URL): URL {
         const newUrlParams = new URLSearchParams(url.search)
@@ -34,8 +34,8 @@ function isQueryTriggers(url: URL): boolean {
  * Check if color option in Google set to transparent
  * @param url Google URL
  */
-function isUrlAlreadyTransparent(url: URL): boolean {
-    return url.searchParams.get("tbs") == "ic:trans"
+function urlIsntTransparent(url: URL): boolean {
+    return url.searchParams.get("tbs") != "ic:trans"
 }
 
 /**

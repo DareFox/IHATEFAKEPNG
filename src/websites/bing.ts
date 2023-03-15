@@ -4,7 +4,7 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter";
 export const BingUrlConverter: WebsiteUrlConverter = {
     name: "Bing",
     isUrlValid: function (url: URL): boolean {
-        return isDomain(url, "bing.com") && isSearchingImages(url) && isUrlAlreadyTransparent(url) && isQueryTriggers(url)
+        return isDomain(url, "bing.com") && isSearchingImages(url) && urlIsntTransparent(url) && isQueryTriggers(url)
     },
     convertURL: function (url: URL): URL {
         const newUrlParams = new URLSearchParams(url.search)
@@ -33,12 +33,12 @@ function isQueryTriggers(url: URL): boolean {
     return isUserSearchingTransparent(url.searchParams.get("q"))
 }
 
-function isUrlAlreadyTransparent(url: URL): boolean {
+function urlIsntTransparent(url: URL): boolean {
     const param = url.searchParams.get("qft")
 
     if (!param)
-        return false
+        return true
 
-    return param.includes("+filterui:photo-transparent")
+    return !param.includes("+filterui:photo-transparent")
 }
 
