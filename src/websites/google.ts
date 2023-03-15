@@ -1,4 +1,4 @@
-import { combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common"
+import { changeParams, combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common"
 import { WebsiteUrlConverter } from "./websiteUrlConverter"
 
 export const GoogleUrlConverter: WebsiteUrlConverter = {
@@ -10,10 +10,7 @@ export const GoogleUrlConverter: WebsiteUrlConverter = {
         urlIsntTransparent(url) 
     },
     convertURL: async function (url: URL): Promise<URL> {
-        const newUrlParams = new URLSearchParams(url.search)
-        newUrlParams.set("tbs", "ic:trans")
-
-        return combineParamsAndUrl(url, newUrlParams)
+        return changeParams(url, params => params.set("tbs", "ic:trans"))
     }
 }
 
