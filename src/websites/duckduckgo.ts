@@ -1,10 +1,10 @@
-import { combineParamsAndUrl, isUserSearchingTransparent } from "./common";
+import { combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common";
 import { WebsiteUrlConverter } from "./websiteUrlConverter";
 
 export const DuckDuckGoUrlConverter: WebsiteUrlConverter = {
     name: "DuckDuckGo",
     isUrlValid: function (url: URL): boolean {
-        return isDuckDuckGO(url) && isSearchingImages(url) && !isUrlAlreadyTransparent(url) && isQueryTriggers(url)
+        return isDomain(url, "duckduckgo.com") && isSearchingImages(url) && !isUrlAlreadyTransparent(url) && isQueryTriggers(url)
     },
     convertURL: function (url: URL): URL {
         const newUrlParams = new URLSearchParams(url.search)
@@ -19,16 +19,6 @@ export const DuckDuckGoUrlConverter: WebsiteUrlConverter = {
 
         return combineParamsAndUrl(url, newUrlParams)
     }
-}
-
-/**
- * Check if url is duckduckgo.com
- * @param url URL to check
- */
-function isDuckDuckGO(url: URL): boolean {
-    const urlDomain = url.hostname
-
-    return urlDomain.includes("duckduckgo.com") || urlDomain.includes(".duckduckgo.com")
 }
 
 /**

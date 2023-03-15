@@ -1,10 +1,10 @@
-import { combineParamsAndUrl, isUserSearchingTransparent } from "./common"
+import { combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common"
 import { WebsiteUrlConverter } from "./websiteUrlConverter"
 
 export const GoogleUrlConverter: WebsiteUrlConverter = {
     name: "Google",
     isUrlValid: function (url: URL): boolean {
-        return isGoogle(url) && 
+        return isDomain(url, "google.") && 
         isSearchingImages(url) &&
         isQueryTriggers(url) &&
         !isUrlAlreadyTransparent(url) 
@@ -15,16 +15,6 @@ export const GoogleUrlConverter: WebsiteUrlConverter = {
 
         return combineParamsAndUrl(url, newUrlParams)
     }
-}
-
-/**
- * Check if url is google.**\/
- * @param url URL to check
- */
-function isGoogle(url: URL): boolean {
-    const urlDomain = url.hostname
-
-    return urlDomain.includes("google.") || urlDomain.includes(".google.")
 }
 
 /**
