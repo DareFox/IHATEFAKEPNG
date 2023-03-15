@@ -1,19 +1,19 @@
+import { combineParamsAndUrl, isUserSearchingTransparent } from "./common"
 import { WebsiteUrlConverter } from "./websiteUrlConverter"
 
 export const GoogleUrlConverter: WebsiteUrlConverter = {
     name: "Google",
-    isUrlValid: function (url: URL): Boolean {
     isUrlValid: function (url: URL): boolean {
         return isGoogle(url) && 
         isSearchingImages(url) &&
-        isUserSearchingTransparent(url) &&
-        !isGoogleSearchSetToTransparent(url) 
+        isQueryTriggers(url) &&
+        !isUrlAlreadyTransparent(url) 
     },
     convertURL: function (url: URL): URL {
         const newUrlParams = new URLSearchParams(url.search)
         newUrlParams.set("tbs", "ic:trans")
 
-        return new URL(`${url.origin}${url.pathname}?${newUrlParams.toString()}`)
+        return combineParamsAndUrl(url, newUrlParams)
     }
 }
 
@@ -31,26 +31,20 @@ function isGoogle(url: URL): boolean {
  * Check if user searching transparent images
  * @param url Google URL
  */
-function isUserSearchingTransparent(url: URL): boolean {    
+function isQueryTriggers(url: URL): boolean {    
     const query =  url.searchParams.get("q")
-    const words = ["png"]
-
+    
     if (!query)
         return false
 
-    for (const word of words) {
-        if (query.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
-            return true 
-    }
-
-    return false
+    return isUserSearchingTransparent(query)
 }
 
 /**
  * Check if color option in Google set to transparent
  * @param url Google URL
  */
-function isGoogleSearchSetToTransparent(url: URL): boolean {
+function isUrlAlreadyTransparent(url: URL): boolean {
     return url.searchParams.get("tbs") == "ic:trans"
 }
 
