@@ -7,7 +7,7 @@
     "default_icon": "png.png"
   },
   "background": {
-    "service_worker": "out/listener.js"
+    "service_worker": "out/background.js"
   },
   "permissions": [
     "tabs"
