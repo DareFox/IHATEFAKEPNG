@@ -1,3 +1,4 @@
+import { getWebsites } from "./options"
 import { BingUrlConverter } from "./websites/bing"
 import { DuckDuckGoUrlConverter } from "./websites/duckduckgo"
 import { GoogleUrlConverter } from "./websites/google"
@@ -14,7 +15,7 @@ chrome.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
 
     const urlObj = new URL(url)
 
-    for (const website of websites) {
+    for (const website of await getWebsites()) {
         if (await website.isUrlValid(urlObj)) {
             const newUrl = await website.convertURL(urlObj)
 
