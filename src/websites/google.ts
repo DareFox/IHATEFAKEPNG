@@ -3,6 +3,7 @@ import { WebsiteUrlConverter } from "./websiteUrlConverter"
 export const GoogleUrlConverter: WebsiteUrlConverter = {
     name: "Google",
     isUrlValid: function (url: URL): Boolean {
+    isUrlValid: function (url: URL): boolean {
         return isGoogle(url) && 
         isSearchingImages(url) &&
         isUserSearchingTransparent(url) &&
