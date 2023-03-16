@@ -16,17 +16,13 @@ const allWebsites = [
 
 const defaultWords = ["png"]
 
+
 export async function getWords(): Promise<string[]> {
     try {
         const value = (await chrome.storage.sync.get("words"))?.words
         
         if(!value || !isStringsArray(value)) {
-            setWords(defaultWords).then(() => {
-                console.log("Updated storage to default words successfully")
-            }).catch(() => {
-                console.log("Failed to update storage to default words")
-            })
- 
+            resetWords()
             return defaultWords
         }
 
@@ -45,37 +41,31 @@ export async function setWords(words: string[]): Promise<void> {
     })
 }
 
-export async function setWebsites(websites: WebsiteUrlConverter[]): Promise<void> {
-    const websitesNames = websites.map((value) => value.name)
+export async function resetWords(): Promise<void> {
+    return setWords(defaultWords).then(() => {
+        console.log("Updated storage to default words successfully")
+    }).catch((e) => {
+        console.error(e)
+        console.error("Failed to update storage to default words")
+    })
+}
 
+export async function setWebsites(websites: string[]): Promise<void> {
     return chrome.storage.sync.set({
-        "websites": websitesNames
+        "websites": websites
     })
 }
 
-export function websitesNamesToObject(websiteNames: string[]): WebsiteUrlConverter[] {
-    const websiteMap = new Map(allWebsites.map((site) => [site.name, site]))
-
-    return websiteNames.flatMap(name => {
-        const site = websiteMap.get(name)
-
-        if (site) return [site] 
-        else return [] // after flattening empty objects (converted nulls) will be removed
-    })
+export async function setWebsitesObject(websitesObjects: WebsiteUrlConverter[]): Promise<void> {
+    return setWebsites(websitesToNames(websitesObjects))
 }
-
 
 export async function getWebsites(): Promise<WebsiteUrlConverter[]> {
     try {
         const value = (await chrome.storage.sync.get("websites"))?.websites
         
         if(!value || !isStringsArray(value)) {
-            setWebsites(allWebsites).then(() => {
-                console.log("Updated storage to default websites successfully")
-            }).catch(() => {
-                console.log("Failed to update storage to default websites")
-            })
- 
+            resetWebsites()
             return allWebsites
         }
 
@@ -88,3 +78,25 @@ export async function getWebsites(): Promise<WebsiteUrlConverter[]> {
     }
 }
 
+export async function resetWebsites(): Promise<void> {
+    return setWebsitesObject(allWebsites).then(() => {
+        console.log("Updated storage to default websites successfully")
+    }).catch(() => {
+        console.log("Failed to update storage to default websites")
+    })
+}
+
+export function websitesToNames(websites: WebsiteUrlConverter[]): string[] {
+    return websites.map((value) => value.name)
+}
+
+export function websitesNamesToObject(websiteNames: string[]): WebsiteUrlConverter[] {
+    const websiteMap = new Map(allWebsites.map((site) => [site.name, site]))
+
+    return websiteNames.flatMap(name => {
+        const site = websiteMap.get(name)
+
+        if (site) return [site] 
+        else return [] // after flattening empty objects (converted nulls) will be removed
+    })
+}
