@@ -1,12 +1,19 @@
 import { isStringsArray } from "./typeChecks"
 import { BingUrlConverter } from "./websites/bing"
+import { WebsiteUrlConverter } from "./websites/abstract"
 import { DuckDuckGoUrlConverter } from "./websites/duckduckgo"
 import { GoogleUrlConverter } from "./websites/google"
-import { WebsiteUrlConverter } from "./websites/websiteUrlConverter"
 import { YahooUrlConverter } from "./websites/yahoo"
 import { YandexUrlConverter } from "./websites/yandex"
 
-const allWebsites = [GoogleUrlConverter, BingUrlConverter, DuckDuckGoUrlConverter, YahooUrlConverter, YandexUrlConverter]
+const allWebsites = [
+    new GoogleUrlConverter(), 
+    new BingUrlConverter(), 
+    new DuckDuckGoUrlConverter(), 
+    new YahooUrlConverter(), 
+    new YandexUrlConverter()
+]
+
 const defaultWords = ["png"]
 
 export async function getWords(): Promise<string[]> {

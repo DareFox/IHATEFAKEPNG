@@ -1,44 +1,29 @@
+import { WebsiteUrlConverter as WebsiteUrlConverter } from "./abstract"
 import { changeParams, combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common"
-import { WebsiteUrlConverter } from "./websiteUrlConverter"
 
-export const GoogleUrlConverter: WebsiteUrlConverter = {
-    name: "Google",
-    isUrlValid: async function (url: URL): Promise<boolean> {
-        return isDomain(url, "google.") && 
-        isSearchingImages(url) &&
-        await isQueryTriggers(url) &&
-        urlIsntTransparent(url) 
-    },
-    convertURL: async function (url: URL): Promise<URL> {
+export class GoogleUrlConverter extends WebsiteUrlConverter {
+    name: string = "Google"
+    protected isImageSearch(url: URL): boolean {
+        return url.searchParams.get("tbm") == "isch"
+    }
+    protected isDomainMatch(url: URL): boolean {
+        return isDomain(url, "google.")
+    }
+    protected getQuery(url: URL): string | null | undefined {
+        return url.searchParams.get("q")
+    }
+    protected urlIsTransparent(url: URL): boolean {
+        return url.searchParams.get("tbs") == "ic:trans"
+    }
+    async convertUrl(url: URL): Promise<URL> {
         return changeParams(url, params => params.set("tbs", "ic:trans"))
     }
-}
+    undoConvertUrl(url: URL): URL {
+        return changeParams(url, params => {
+            if (params.get("tbs") == "ic:trans") {
+                params.delete("tbs")
+            }
+        })
+    }
 
-/**
- * Check if user searching transparent images
- * @param url Google URL
- */
-async function isQueryTriggers(url: URL): Promise<boolean> {    
-    const query =  url.searchParams.get("q")
-    
-    if (!query)
-        return false
-
-    return await isUserSearchingTransparent(query)
-}
-
-/**
- * Check if color option in Google set to transparent
- * @param url Google URL
- */
-function urlIsntTransparent(url: URL): boolean {
-    return url.searchParams.get("tbs") != "ic:trans"
-}
-
-/**
- * Check if url points to Google Images section
- * @param url Google URL
- */
-function isSearchingImages(url: URL): boolean {
-    return url.searchParams.get("tbm") == "isch"
 }
