@@ -14,7 +14,7 @@ chrome.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     for (const website of await getWebsites()) {
         // if previous url was changed by extension
         // and new url can remove filter transparency
-        // then new url was set by previous url
+        // then new url filters was set by previous url
         if (previousUrl && isConvertedByExtension(previousUrl) && website.canUndoConvertUrl(urlObj)) {
             // remove filter from new url
             const cleanUrl = changeParams(website.undoConvertUrl(urlObj), params => {
