@@ -12,5 +12,9 @@
   "permissions": [
     "tabs",
     "storage"
-  ]
+  ],
+  "options_ui": {
+    "page": "out/options.html",
+    "open_in_tab": false
+  }
 }
