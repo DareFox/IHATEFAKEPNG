@@ -6,7 +6,7 @@ import { GoogleUrlConverter } from "./websites/google"
 import { YahooUrlConverter } from "./websites/yahoo"
 import { YandexUrlConverter } from "./websites/yandex"
 
-const allWebsites = [
+export const allWebsites = [
     new GoogleUrlConverter(), 
     new BingUrlConverter(), 
     new DuckDuckGoUrlConverter(), 
