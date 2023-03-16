@@ -6,8 +6,8 @@ export abstract class WebsiteUrlConverter {
     protected abstract isImageSearch(url: URL): boolean
     protected abstract isDomainMatch(url: URL): boolean
     protected abstract getQuery(url: URL): string | null | undefined
-    protected abstract urlIsTransparent(url: URL): boolean
 
+    protected abstract urlIsTransparent(url: URL): boolean
     protected urlIsntTransparent(url: URL): boolean {
         return !this.urlIsTransparent(url)
     }
@@ -32,7 +32,7 @@ export abstract class WebsiteUrlConverter {
     }
 
     /**
-     * Convert URL to exclude transparent images from results
+     * Convert URL to exclude fake png images from results
      * @param url new URL with transparency filters
      */
     abstract convertUrl(url: URL): Promise<URL>
