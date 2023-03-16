@@ -1,57 +1,57 @@
+import { WebsiteUrlConverter } from "./abstract";
 import { combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./common";
-import { WebsiteUrlConverter } from "./websiteUrlConverter";
 
-export const DuckDuckGoUrlConverter: WebsiteUrlConverter = {
-    name: "DuckDuckGo",
-    isUrlValid: async function (url: URL): Promise<boolean> {
-        return isDomain(url, "duckduckgo.com") && isSearchingImages(url) && urlIsntTransparent(url) && await isQueryTriggers(url)
-    },
-    convertURL: async function (url: URL): Promise<URL> {
-        const newUrlParams = new URLSearchParams(url.search)
-        var settings = newUrlParams.get("iaf")?.split(",")
+export class DuckDuckGoUrlConverter extends WebsiteUrlConverter {
+    name: string = "DuckDuckGO";
+    protected isImageSearch(url: URL): boolean {
+        return url.searchParams.get("ia") == "images" && url.searchParams.get("iax") == "images"
+    }
+    protected isDomainMatch(url: URL): boolean {
+        return isDomain(url, "duckduckgo.com") 
+    }
+    protected getQuery(url: URL): string | null | undefined {
+        return url.searchParams.get("q")
+    }
+    protected urlIsTransparent(url: URL): boolean {
+        const settings = url.searchParams.get("iaf")?.split(",") 
+
+        if (!settings)
+            return false
+
+        for (const setting of settings) {
+            if (setting.toLowerCase() == "type:transparent") {
+                return true
+            }
+        }
+
+        return false
+    }
+    async convertUrl(url: URL): Promise<URL> {
+        const newUrlParams = new URLSearchParams(url.search);
+        var settings = newUrlParams.get("iaf")?.split(",");
 
         if (!settings) {
-            settings = []
+            settings = [];
         }
 
-        settings.push("type:transparent")
-        newUrlParams.set("iaf", settings.join(','))
+        settings.push("type:transparent");
+        newUrlParams.set("iaf", settings.join(','));
 
-        return combineParamsAndUrl(url, newUrlParams)
+        return combineParamsAndUrl(url, newUrlParams);
     }
-}
+    undoConvertUrl(url: URL): URL {
+        const newUrlParams = new URLSearchParams(url.search);
+        var settings = newUrlParams.get("iaf")?.split(",");
 
-/**
- * Check if url points to images page
- * @param url duckduckgo URL
- */
-function isSearchingImages(url: URL): boolean {
-    return url.searchParams.get("ia") == "images" && url.searchParams.get("iax") == "images"
-}
-
-/**
- * Check if user searching transparent images
- */
-async function isQueryTriggers(url: URL): Promise<boolean> {
-    const query =  url.searchParams.get("q")
-    
-    if (!query)
-        return false
-
-    return await isUserSearchingTransparent(query)
-}
-
-function urlIsntTransparent(url: URL): boolean {
-    const settings = url.searchParams.get("iaf")?.split(",") 
-
-    if (!settings)
-        return true
-
-    for (const setting of settings) {
-        if (setting.toLowerCase() == "type:transparent") {
-            return false
+        if (!settings) {
+            settings = [];
         }
-    }
 
-    return true
+        settings = settings.filter((val) => {
+            val != "type:transparent"
+        });
+
+        newUrlParams.set("iaf", settings.join(','));
+        return combineParamsAndUrl(url, newUrlParams);
+    }
 }
