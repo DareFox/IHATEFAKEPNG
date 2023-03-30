@@ -1,16 +1,23 @@
-import Browser from "webextension-polyfill"
+import Browser, { tabs } from "webextension-polyfill"
 import { getWebsites } from "./options"
 import { getPreviousUrl, removePreviousUrl, updatePreviousUrl } from "./previousUrl"
 import { changeParams } from "./websites/common"
 
 Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     const url = tab.url
-    
     if (!url)
         return
 
     const previousUrl = getPreviousUrl(tabID)
     var urlObj = new URL(url)
+
+    // For Firefox: update only whem URL loading is completed
+    // this should fix loop redirect
+    if ((await Browser.runtime.getBrowserInfo()).name == "Firefox") {
+        if (changeInfo.status != "complete") {
+            return
+        } 
+    }
 
     for (const website of await getWebsites()) {
         // if previous url was changed by extension
@@ -26,7 +33,7 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
             // if new url doesn't trigger transparency filter
             // then set clean url without previous filters
             if (!isValidForConverstion) {
-                chrome.tabs.update(tabID, {
+                Browser.tabs.update(tabID, {
                     url: cleanUrl.toString()
                 })
 
@@ -42,10 +49,18 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
                 params.set("removefakepng", "true")
             })
 
+            // if (a > 0) {
+            //     return
+            // } else {
+            //     a++
+            // }
+    
+
             Browser.tabs.update(tabID, {
                 url: newUrl.toString()
             })
-    
+
+            
             console.log(`Redirecting from ${url} to ${newUrl}`)
             updatePreviousUrl(tabID, newUrl)
             return
