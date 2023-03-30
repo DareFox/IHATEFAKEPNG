@@ -49,17 +49,9 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
                 params.set("removefakepng", "true")
             })
 
-            // if (a > 0) {
-            //     return
-            // } else {
-            //     a++
-            // }
-    
-
             Browser.tabs.update(tabID, {
                 url: newUrl.toString()
             })
-
             
             console.log(`Redirecting from ${url} to ${newUrl}`)
             updatePreviousUrl(tabID, newUrl)
