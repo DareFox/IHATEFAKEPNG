@@ -14,7 +14,7 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     // For Firefox: update only whem URL loading is completed
     // this should fix loop redirect
     if ((await Browser.runtime.getBrowserInfo()).name == "Firefox") {
-        if (changeInfo.status != "loading" || !changeInfo.url) {
+        if (!changeInfo.status || !changeInfo.url) {
             return
         } 
     }
