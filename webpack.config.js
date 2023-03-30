@@ -27,6 +27,7 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: "ts-loader",
                 exclude: /node_modules/,
+                include: /node_modules\/webextensions-polyfill|src/
             },
         ],
     },
@@ -35,7 +36,7 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin({
-            patterns: [{ context: srcDir, from: path.join(srcDir, "*.html")}],
+            patterns: [{ context: srcDir, from: path.join(srcDir, "options.html")}],
             options: {
 
             },

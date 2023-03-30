@@ -5,6 +5,7 @@ import { DuckDuckGoUrlConverter } from "./websites/duckduckgo"
 import { GoogleUrlConverter } from "./websites/google"
 import { YahooUrlConverter } from "./websites/yahoo"
 import { YandexUrlConverter } from "./websites/yandex"
+import Browser from "webextension-polyfill"
 
 export const allWebsites = [
     new GoogleUrlConverter(), 
@@ -19,7 +20,7 @@ const defaultWords = ["png"]
 
 export async function getWords(): Promise<string[]> {
     try {
-        const value = (await chrome.storage.sync.get("words"))?.words
+        const value = (await Browser.storage.sync.get("words"))?.words
         
         if(!value || !isStringsArray(value)) {
             resetWords()
@@ -36,7 +37,7 @@ export async function getWords(): Promise<string[]> {
 }
 
 export async function setWords(words: string[]): Promise<void> {
-    return chrome.storage.sync.set({
+    return Browser.storage.sync.set({
         "words": words
     })
 }
@@ -51,7 +52,7 @@ export async function resetWords(): Promise<void> {
 }
 
 export async function setWebsites(websites: string[]): Promise<void> {
-    return chrome.storage.sync.set({
+    return Browser.storage.sync.set({
         "websites": websites
     })
 }
@@ -62,7 +63,7 @@ export async function setWebsitesObject(websitesObjects: WebsiteUrlConverter[]):
 
 export async function getWebsites(): Promise<WebsiteUrlConverter[]> {
     try {
-        const value = (await chrome.storage.sync.get("websites"))?.websites
+        const value = (await Browser.storage.sync.get("websites"))?.websites
         
         if(!value || !isStringsArray(value)) {
             resetWebsites()

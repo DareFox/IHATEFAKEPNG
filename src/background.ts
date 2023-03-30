@@ -1,8 +1,9 @@
+import Browser from "webextension-polyfill"
 import { getWebsites } from "./options"
 import { getPreviousUrl, removePreviousUrl, updatePreviousUrl } from "./previousUrl"
 import { changeParams } from "./websites/common"
 
-chrome.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
+Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     const url = tab.url
     
     if (!url)
@@ -41,7 +42,7 @@ chrome.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
                 params.set("removefakepng", "true")
             })
 
-            chrome.tabs.update(tabID, {
+            Browser.tabs.update(tabID, {
                 url: newUrl.toString()
             })
     
@@ -54,7 +55,7 @@ chrome.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     updatePreviousUrl(tabID, urlObj)
 })
 
-chrome.tabs.onRemoved.addListener(async (tabId) => {
+Browser.tabs.onRemoved.addListener(async (tabId) => {
     removePreviousUrl(tabId)
 })
 
