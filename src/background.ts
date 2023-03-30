@@ -1,4 +1,4 @@
-import Browser, { tabs } from "webextension-polyfill"
+import Browser from "webextension-polyfill"
 import { getWebsites } from "./options"
 import { getPreviousUrl, removePreviousUrl, updatePreviousUrl } from "./previousUrl"
 import { changeParams } from "./websites/common"
@@ -14,7 +14,7 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     // For Firefox: update only whem URL loading is completed
     // this should fix loop redirect
     if ((await Browser.runtime.getBrowserInfo()).name == "Firefox") {
-        if (changeInfo.status != "complete") {
+        if (changeInfo.status != "loading" || !changeInfo.url) {
             return
         } 
     }
