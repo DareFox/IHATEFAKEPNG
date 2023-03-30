@@ -28,7 +28,7 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin({
-            patterns: [{ context: srcDir, from: path.join(srcDir, "options.html")}],
+            patterns: [{ context: srcDir, from: path.join(srcDir, "options.html")}, { context: srcDir, from: path.join(srcDir, "background.html")}],
             options: {
 
             },
