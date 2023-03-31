@@ -7,12 +7,18 @@
     "default_icon": "png.png"
   },
   "background": {
-    "service_worker": "out/background.js"
+    "page": "out/background.html"
   },
   "permissions": [
     "tabs",
     "storage"
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{a4bdc727-e704-417f-a7c6-3811fa5564cf}",
+      "strict_min_version": "42.0"
+    }
+  },  
   "options_ui": {
     "page": "out/options.html",
     "open_in_tab": false
