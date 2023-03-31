@@ -18,6 +18,12 @@ export async function isUserSearchingTransparent(query: string | undefined | nul
     return false
 }
 
+/**
+ * Create URL with new parameters
+ * @param url Base URL 
+ * @param newParams Parameters to set
+ * @returns URL + New parameters
+ */
 export function combineParamsAndUrl(url: URL, newParams: URLSearchParams): URL {
     return new URL(`${url.origin}${url.pathname}?${newParams.toString()}`)
 }
