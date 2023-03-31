@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "I HATE FAKE PNG",
-  "description": "Browser extension that filters out non-transparent images from search results when using specific words like \"png\"",
+  "description": "Browser extension that filters out non-transparent images from search results when using specific words like \"png\"" ,
   "version": "1.0",
   "action": {
     "default_icon": "png.png"
@@ -15,8 +15,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "{a4bdc727-e704-417f-a7c6-3811fa5564cf}",
-      "strict_min_version": "42.0"
+      "id": "{a4bdc727-e704-417f-a7c6-3811fa5564cf}"
     }
   },  
   "options_ui": {
