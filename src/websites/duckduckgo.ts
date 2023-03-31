@@ -4,7 +4,7 @@ import { combineParamsAndUrl, isDomain, isUserSearchingTransparent } from "./com
 export class DuckDuckGoUrlConverter extends WebsiteUrlConverter {
     name: string = "DuckDuckGO";
     protected isImageSearch(url: URL): boolean {
-        return url.searchParams.get("ia") == "images" && url.searchParams.get("iax") == "images"
+        return url.searchParams.get("ia") == "images" || url.searchParams.get("iax") == "images" || url.searchParams.get("iar") == "images"
     }
     protected isDomainMatch(url: URL): boolean {
         return isDomain(url, "duckduckgo.com") 
