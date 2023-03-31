@@ -49,7 +49,7 @@ async function resetOptions() {
     setStatus(getErrorMessage(e))
   })
   .then(() => {
-    setStatus("Reset all options")
+    setStatus("The settings have been reset")
   })
   .finally(() => {
     updateOptions()
@@ -81,15 +81,11 @@ async function saveOptions() {
     setStatus(getErrorMessage(e))
   })
   .then(() => {    
-    setStatus("Saved all options")
+    setStatus("The settings have been saved")
   })
   .finally(() => {
     updateOptions()
   })
-}
-
-function getWebsiteMap() {
-
 }
 
 function setStatus(string: string) {
