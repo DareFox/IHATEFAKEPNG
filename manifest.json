@@ -4,7 +4,8 @@
   "description": "Browser extension that filters out non-transparent images from search results",
   "version": "1.0",
   "action": {
-    "default_icon": "png.png"
+    "default_icon": "png.png",
+    "default_popup": "out/options.html"
   },
   "background": {
     "service_worker": "out/background.js"
