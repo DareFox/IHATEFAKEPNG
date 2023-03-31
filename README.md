@@ -7,7 +7,7 @@ Browser extension that helps users filter out non-transparent images from their 
 ## Supports
 - Google
 - Bing
-- Yandex (kinda)
+- Yandex
 - DuckDuckGO
 - Yahoo
 
