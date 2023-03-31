@@ -105,3 +105,6 @@ dist
 
 # Typescript builds
 out/
+
+# FireFox extension builds
+web-ext-artifacts/
