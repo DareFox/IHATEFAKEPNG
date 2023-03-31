@@ -11,3 +11,11 @@ Browser extension that helps users filter out non-transparent images from their 
 - DuckDuckGO
 - Yahoo
 
+## Build from Source
+### Requirements:
+- Node v19
+- NPM
+
+### Steps:
+- Run `npm i` to install all necessary libraries to build
+- After that run `npm run pack`. It will build **unsigned** extension and pack them into zip files in `./web-ext-artifacts` for Firefox and Chrome
