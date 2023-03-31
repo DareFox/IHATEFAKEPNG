@@ -1,20 +1,20 @@
 {
   "name": "ihatefakepng",
   "version": "1.0.0",
-  "description": "Exclude from Google search non-transparent images when searching \"*smth* png\"",
-  "main": "listener.js",
+  "description": "Browser extension that filters out non-transparent images from search results when using specific words like \"png\"",
+  "main": "out/background.js",
   "scripts": {
     "build": "webpack",
+    "pack": "webpack && node ./buildscritps/pack.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/chrome": "^0.0.224",
     "@types/webextension-polyfill": "^0.10.0",
+    "archiver": "^5.3.1",
     "copy-webpack-plugin": "^11.0.0",
     "glob": "^9.3.0",
-    "imports-loader": "^4.0.1",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.5",
     "web-ext": "^7.6.0",
