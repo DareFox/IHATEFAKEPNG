@@ -19,7 +19,22 @@ export abstract class WebsiteUrlConverter {
      * @returns Promise of check. True, if you can convert
      */
     async canConvertUrl(url: URL): Promise<boolean> {
-        return this.isDomainMatch(url) && this.isImageSearch(url) && this.urlIsntTransparent(url) && await isUserSearchingTransparent(this.getQuery(url)) 
+        const isDomainMatch = this.isDomainMatch(url)
+        const isImageSearch = this.isImageSearch(url)
+        const urlIsntTransparent = this.urlIsntTransparent(url)
+        const isUserSearchingTransparentImage = await isUserSearchingTransparent(this.getQuery(url)) 
+        const canConvert = isDomainMatch && isImageSearch && urlIsntTransparent && isUserSearchingTransparentImage 
+
+
+        console.log(
+            `Checking if can convert ${url} to transparent url\n` +
+            `${this.name}.isImageSearch: ${isImageSearch}\n` +
+            `${this.name}.isDomainMatch: ${isDomainMatch}\n` +
+            `${this.name}.isUserSearchingTransparentImage: ${isUserSearchingTransparentImage}\n` +
+            `${this.name}.urlIsntTransparent: ${urlIsntTransparent}\n\n` +
+            `Can convert: ${canConvert}`
+        )
+        return canConvert
     }
     
     /**
@@ -28,7 +43,20 @@ export abstract class WebsiteUrlConverter {
      * @returns True, if you can undo convert
      */
     canUndoConvertUrl(url: URL): boolean {
-        return this.isDomainMatch(url) && this.isImageSearch(url) && this.urlIsTransparent(url)
+        const isDomainMatch = this.isDomainMatch(url)
+        const isImageSearch = this.isImageSearch(url)
+        const urlIsTransparent = this.urlIsTransparent(url)
+        const canUndo = isDomainMatch && isImageSearch && urlIsTransparent
+
+        console.log(
+            `Checking if can undo transparency converstion for ${url}\n` +
+            `${this.name}.isImageSearch: ${isImageSearch}\n` +
+            `${this.name}.isDomainMatch: ${isDomainMatch}\n` +
+            `${this.name}.urlIsTransparent: ${urlIsTransparent}\n\n` +
+            `Can undo conversion: ${canUndo}`
+        )
+
+        return canUndo
     }
 
     /**

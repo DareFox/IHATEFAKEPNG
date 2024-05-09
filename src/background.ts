@@ -22,6 +22,7 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     } catch(_) {}
 
     for (const website of await getWebsites()) {
+        console.log("Testing " + website.name)
         // if previous url was changed by extension
         // and new url can remove filter transparency
         // then new url filters was set by previous url
