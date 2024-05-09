@@ -4,7 +4,7 @@ import { changeParams, combineParamsAndUrl, isDomain, isUserSearchingTransparent
 export class GoogleUrlConverter extends WebsiteUrlConverter {
     name: string = "Google"
     protected isImageSearch(url: URL): boolean {
-        return url.searchParams.get("tbm") == "isch"
+        return url.searchParams.get("udm") == "2"
     }
     protected isDomainMatch(url: URL): boolean {
         return isDomain(url, "google.")
