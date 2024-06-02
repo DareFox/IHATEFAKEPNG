@@ -5,7 +5,7 @@ import { changeParams } from "./websites/common"
 import { SettingsMigration } from "./settings/SettingsMigration"
 import { dictionaryToWebsites } from "./websites/all"
 
-await SettingsMigration.migrate()
+SettingsMigration.migrate()
 
 Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
     const settings = (await Settings.getSettings()) || Settings.defaultSettings 
