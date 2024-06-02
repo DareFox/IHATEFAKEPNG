@@ -1,4 +1,4 @@
-import { getWords } from "../options"
+import { Settings } from "../settings/Settings"
 
 /**
  * Check if user searching transparent images in query
@@ -10,7 +10,7 @@ export async function isUserSearchingTransparent(query: string | undefined | nul
         return false
     }
     
-    for (const word of await getWords()) {
+    for (const word of (await Settings.getSettingsOrDefault()).words ) {
         if (query.toLocaleLowerCase().includes(word.toLocaleLowerCase()))
             return true 
     }
