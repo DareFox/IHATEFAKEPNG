@@ -1,9 +1,14 @@
 import Browser from "webextension-polyfill"
-import { getWebsites } from "./options"
+import { Settings } from "./settings/Settings"
 import { getPreviousUrl, removePreviousUrl, updatePreviousUrl } from "./previousUrl"
 import { changeParams } from "./websites/common"
+import { SettingsMigration } from "./settings/SettingsMigration"
+import { dictionaryToWebsites } from "./websites/all"
+
+await SettingsMigration.migrate()
 
 Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
+    const settings = (await Settings.getSettings()) || Settings.defaultSettings 
     const url = tab.url
     if (!url)
         return
@@ -21,7 +26,7 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
         }
     } catch(_) {}
 
-    for (const website of await getWebsites()) {
+    for (const website of dictionaryToWebsites(settings.websites)) {
         console.log("Testing " + website.name)
         // if previous url was changed by extension
         // and new url can remove filter transparency
@@ -45,7 +50,6 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
                 return
             }
         }
-
 
         if (await website.canConvertUrl(urlObj)) {
             const newUrl = changeParams(await website.convertUrl(urlObj), params => {

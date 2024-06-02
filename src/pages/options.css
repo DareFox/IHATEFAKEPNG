@@ -1,0 +1,46 @@
+body {
+    width: max-content;
+    font-size: 90%;
+    margin: 0.5em
+}
+
+.category {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    margin: 0.6em 0;
+    max-width: 500px;
+
+    button {
+        margin-top: 0.4em;
+    }
+}
+
+.oneLineInputLabel {
+    input {
+        margin-right: 0.3em;
+    }
+}
+
+#words {
+    margin-top: 0.2em;
+    line-height: 1em;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+
+#websites {
+    div {
+        display: flex;
+        align-items: center;
+    }
+
+    div:not(:first-child) {
+        margin-top: 0.2em;
+    }
+}
+
+.field:not(:first-child) {
+    margin-top: 0.45em;
+}

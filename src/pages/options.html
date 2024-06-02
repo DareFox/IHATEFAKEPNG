@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>I HATE FAKE PNG Settings</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="options.css">
+    
+</head>
+
+<body>
+    <div class="category">
+        <div class="field">Apply to:</div>
+        <div class="field" id="websites"></div>
+    </div>
+
+    <div class="category" id="wordsDiv">
+        <div class="field">
+            <label for="words"> Words that trigger transparency mode. Seperated by comma ',' </label>
+            <input type="text" id="words">    
+        </div>
+        <div class="field">
+            <div class="oneLineInputLabe">
+                <input type="checkbox" name="Ignore letter case" id="ignoreCase">
+                <label for="ignoreCase">Ignore letter case</label>
+            </div>
+        </div>  
+    </div>
+
+    <div class="category" id="buttons">
+        <div class="field">
+            <div id="status"></div>
+        </div>
+        <button id="save">Save</button>
+        <button id="reset">Reset</button>
+    </div>        
+    <script src="optionsHtmlHandler.js"></script>
+</body>
+</html>

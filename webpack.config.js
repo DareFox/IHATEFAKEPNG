@@ -5,9 +5,9 @@ const srcDir = path.join(__dirname, "src");
 
 module.exports = {
     entry: {
-      background: path.join(srcDir, 'background.ts'),
-      optionsHtmlHandler: path.join(srcDir, 'optionsHtmlHandler.ts'),
-    //   optionsHtml: path.join(srcDir, 'options.html')
+        background: path.join(srcDir, 'background.ts'),
+        optionsHtmlHandler: path.join(srcDir, 'pages/optionsHtmlHandler.ts'),
+        //   optionsHtml: path.join(srcDir, 'options.html')
     },
     output: {
         path: path.join(__dirname, "./out"),
@@ -24,14 +24,17 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".html"],
+        extensions: [".ts", ".tsx", ".js", ".html", ".css"],
     },
     plugins: [
         new CopyPlugin({
-            patterns: [{ context: srcDir, from: path.join(srcDir, "options.html")}, { context: srcDir, from: path.join(srcDir, "background.html")}],
-            options: {
-
-            },
+            patterns: [
+                { context: srcDir, from: path.join(srcDir, "pages/options.html") }, 
+                { context: srcDir, from: path.join(srcDir, "pages/options.css") }, 
+                { context: srcDir, from: path.join(srcDir, "pages/normalize.css") }, 
+                { context: srcDir, from: path.join(srcDir, "background.html") }
+            ],
+            options: {},
         }),
     ],
     devtool: 'inline-source-map',

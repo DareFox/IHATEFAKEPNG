@@ -1,19 +1,30 @@
-import { allWebsites, getWebsites, getWords, resetWebsites, resetWords, setWebsites, setWords } from "./options"
+import { LatestSettings, Settings } from "../settings/Settings"
+import { Dictionary } from "../utils/Dictionary"
+import { allWebsites } from "../websites/all"
 
 const websiteContainer = document.getElementById("websites")!
 const wordsText = document.getElementById("words")! as HTMLInputElement
+const ignoreCaseCheckbox = document.getElementById("ignoreCase")! as HTMLInputElement
 const statusDiv = document.getElementById("status")!
 const saveButton = document.getElementById("save")! as HTMLButtonElement
 const resetButton = document.getElementById("reset")! as HTMLButtonElement
 
+function setStatus(string: string) {
+  statusDiv.textContent = string
+}
+
 async function updateOptions() {
+  console.log("updating options")
+  const settings = await Settings.getSettingsOrDefault()
   var enabledWebsites = new Map(allWebsites.map(website => [website.name, false]))
-  const websitesFromSync = await (await getWebsites())
-  const wordsFromSync = await getWords()
+  const websitesFromSync = settings.websites
+  const wordsFromSync = settings.words
+
+  ignoreCaseCheckbox.checked = settings.ignoreCase
 
   websiteContainer.innerHTML = ""
-  for (const website of websitesFromSync) {
-    enabledWebsites.set(website.name, true)
+  for (const [name, enabled] of Object.entries(websitesFromSync)) {
+    enabledWebsites.set(name, enabled)
   }
 
   for (const [name,enabled] of enabledWebsites) {
@@ -28,6 +39,7 @@ async function updateOptions() {
       label.textContent = name
   
       const div = document.createElement("div")
+      div.classList.add("oneLineInputLabel")
       div.appendChild(input)
       div.appendChild(label)
   
@@ -38,12 +50,7 @@ async function updateOptions() {
 }
 
 async function resetOptions() {
-  const allPromises = [
-    resetWebsites(),
-    resetWords()
-  ]
-  
-  Promise.all(allPromises)
+  Settings.setSettings(Settings.defaultSettings)
   .catch((e) => {
     console.error(e)
     setStatus(getErrorMessage(e))
@@ -66,43 +73,49 @@ async function saveOptions() {
     websiteMap.set(websiteName, checkbox.checked)
   } 
 
-  // convert map to array
-  const enabledWebsites = [...websiteMap].filter(([key,value]) => value).map(([val]) => val)
+  const websiteDict: Dictionary<string, boolean> = {}
   const words = wordsText.value.split(',').map((item) => item.trim()) as string[]
 
-  const allPromises = [
-    setWords(words),
-    setWebsites(enabledWebsites)
-  ]
+  websiteMap.forEach((val, key) => {
+    websiteDict[key] = val
+  })
 
-  Promise.all(allPromises)
-  .catch((e) => {
-    console.error(e)
-    setStatus(getErrorMessage(e))
-  })
-  .then(() => {    
-    setStatus("The settings have been saved")
-  })
-  .finally(() => {
-    updateOptions()
-  })
+  
+  const ignoreCase = ignoreCaseCheckbox.checked
+  const oldSettings = await Settings.getSettingsOrDefault()
+  
+  const newSettings: LatestSettings = {
+    version: oldSettings.version,
+    words: words,
+    ignoreCase: ignoreCase,
+    exactMatch: oldSettings.exactMatch,
+    websites: websiteDict
+  }
+
+  console.log("Old settings:", oldSettings, "New settings:", newSettings)
+
+  Settings.setSettings(newSettings)
+    .catch((e) => {
+      console.error(e)
+      setStatus(getErrorMessage(e))
+    })
+    .then(() => {    
+      setStatus("The settings have been saved")
+    })
+    .finally(() => {
+      updateOptions()
+    })
 }
 
-function setStatus(string: string) {
-  statusDiv.textContent = string
-}
+
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message
   return String(error)
 }
 
-saveButton.onclick = () => {
-  saveOptions()
-}
+saveButton.onclick = saveOptions
+resetButton.onclick = resetOptions
 
-resetButton.onclick = () => {
-  resetOptions()
-}
-
-updateOptions()
+console.log("TEST TEST")
+await updateOptions()
