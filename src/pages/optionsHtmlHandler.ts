@@ -115,7 +115,11 @@ function getErrorMessage(error: unknown) {
 }
 
 saveButton.onclick = saveOptions
-resetButton.onclick = resetOptions
+resetButton.onclick = () => {
+  if (confirm("Are you sure you want to reset settings?")) {
+    resetOptions()
+  }
+}
 
 console.log("TEST TEST")
 await updateOptions()
