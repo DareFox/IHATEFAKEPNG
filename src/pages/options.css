@@ -4,6 +4,10 @@ body {
     margin: 0.5em
 }
 
+* {
+    font-family: sans-serif;
+}
+
 .category {
     display: flex;
     justify-content: left;
@@ -30,7 +34,7 @@ body {
 }
 
 
-#websites {
+.checkboxList {
     div {
         display: flex;
         align-items: center;

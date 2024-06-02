@@ -5,13 +5,12 @@
     <title>I HATE FAKE PNG Settings</title>
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="options.css">
-    
 </head>
 
 <body>
     <div class="category">
         <div class="field">Apply to:</div>
-        <div class="field" id="websites"></div>
+        <div class="field checkboxList" id="websites"></div>
     </div>
 
     <div class="category" id="wordsDiv">
@@ -19,14 +18,12 @@
             <label for="words"> Words that trigger transparency mode. Seperated by comma ',' </label>
             <input type="text" id="words">    
         </div>
-        <div class="field">
-            <div class="oneLineInputLabe">
+        <div class="field checkboxList">
+            <div class="oneLineInputLabel">
                 <input type="checkbox" name="Ignore letter case" id="ignoreCase">
                 <label for="ignoreCase">Ignore letter case</label>
             </div>
-        </div>  
-        <div class="field">
-            <div class="oneLineInputLabe">
+            <div class="oneLineInputLabel">
                 <input type="checkbox" name="Match whole word" id="exactMatch">
                 <label for="exactMatch">Match whole word</label>
             </div>
