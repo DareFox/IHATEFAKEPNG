@@ -57,10 +57,12 @@ async function packFireFox() {
 }
 
 async function main() {
-  renameSync('./manifest.json', './manifest.json.backup')
-  await packFireFox()
-  await packChrome()
-  renameSync('./manifest.json.backup', './manifest.json')
+  try {
+    await packChrome()
+    await packFireFox()
+  } finally {
+    copyFileSync('./manifest-chrome.json', './manifest.json')
+  }
 }
 
 main()
