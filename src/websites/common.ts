@@ -22,9 +22,9 @@ export async function isUserSearchingTransparent(query: string | undefined | nul
         if (exactMatch) {
             const regex = new RegExp(`(?<=\\s|^)${wordProcessed}(?=\\s|$)`)
             const match = queryProcessed.match(regex)
-            return !!match
+            if (match) return true
         } else {
-            return queryProcessed.includes(wordProcessed)
+            if (queryProcessed.includes(wordProcessed)) return true
         }
     }
 
