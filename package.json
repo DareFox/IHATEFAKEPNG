@@ -1,6 +1,6 @@
 {
   "name": "ihatefakepng",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Browser extension that filters out non-transparent images from search results when using specific words like \"png\"",
   "main": "out/background.js",
   "scripts": {
