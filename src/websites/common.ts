@@ -5,16 +5,26 @@ import { Settings } from "../settings/Settings"
  * @param query user search
  * @returns true if user searcing transparent images
  */
-export async function isUserSearchingTransparent(query: string | undefined | null, ignoreCase: boolean): Promise<boolean> {
+export async function isUserSearchingTransparent(query: string | undefined | null, ignoreCase: boolean, exactMatch: boolean): Promise<boolean> {
     if (!query) {
         return false
     }
     
     for (const word of (await Settings.getSettingsOrDefault()).words ) {
+        var queryProcessed = query
+        var wordProcessed = word
+
         if (ignoreCase) {
-            return query.toLocaleLowerCase().includes(word.toLocaleLowerCase())
+            queryProcessed = query.toLocaleLowerCase()
+            wordProcessed = word.toLocaleLowerCase()
+        }
+
+        if (exactMatch) {
+            const regex = new RegExp(`(?<=\\s|^)${wordProcessed}(?=\\s|$)`)
+            const match = queryProcessed.match(regex)
+            return !!match
         } else {
-            return query.includes(word)
+            return queryProcessed.includes(wordProcessed)
         }
     }
 

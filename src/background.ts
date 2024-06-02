@@ -36,7 +36,7 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
             const cleanUrl = changeParams(website.undoConvertUrl(urlObj), params => {
                 params.delete("removefakepng")
             })
-            const isValidForConverstion = await website.canConvertUrl(cleanUrl, settings.ignoreCase)
+            const isValidForConverstion = await website.canConvertUrl(cleanUrl, settings.ignoreCase, settings.exactMatch)
 
             // if new url doesn't trigger transparency filter
             // then set clean url without previous filters
@@ -51,7 +51,7 @@ Browser.tabs.onUpdated.addListener(async (tabID, changeInfo, tab) => {
             }
         }
 
-        if (await website.canConvertUrl(urlObj, settings.ignoreCase)) {
+        if (await website.canConvertUrl(urlObj, settings.ignoreCase, settings.exactMatch)) {
             const newUrl = changeParams(await website.convertUrl(urlObj), params => {
                 params.set("removefakepng", "true")
             })

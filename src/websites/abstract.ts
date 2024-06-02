@@ -16,14 +16,15 @@ export abstract class WebsiteUrlConverter {
     /**
      * Check if can convert URL to exclude transparent images
      * @param url URL to check
-     * @param ignoreCase Should function ignore letter case for words that trigger conversion
+     * @param ignoreCase On true ignores letter case of search query and trigger words
+     * @param exactMatch On true matches whole word, on false can match words partially
      * @returns Promise of check. True, if you can convert
      */
-    async canConvertUrl(url: URL, ignoreCase: boolean): Promise<boolean> {
+    async canConvertUrl(url: URL, ignoreCase: boolean, exactMatch: boolean): Promise<boolean> {
         const isDomainMatch = this.isDomainMatch(url)
         const isImageSearch = this.isImageSearch(url)
         const urlIsntTransparent = this.urlIsntTransparent(url)
-        const isUserSearchingTransparentImage = await isUserSearchingTransparent(this.getQuery(url), ignoreCase) 
+        const isUserSearchingTransparentImage = await isUserSearchingTransparent(this.getQuery(url), ignoreCase, exactMatch) 
         const canConvert = isDomainMatch && isImageSearch && urlIsntTransparent && isUserSearchingTransparentImage 
 
 

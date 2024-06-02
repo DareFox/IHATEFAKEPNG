@@ -5,6 +5,7 @@ import { allWebsites } from "../websites/all"
 const websiteContainer = document.getElementById("websites")!
 const wordsText = document.getElementById("words")! as HTMLInputElement
 const ignoreCaseCheckbox = document.getElementById("ignoreCase")! as HTMLInputElement
+const exactMatchCheckbox = document.getElementById("exactMatch")! as HTMLInputElement
 const statusDiv = document.getElementById("status")!
 const saveButton = document.getElementById("save")! as HTMLButtonElement
 const resetButton = document.getElementById("reset")! as HTMLButtonElement
@@ -21,6 +22,7 @@ async function updateOptions() {
   const wordsFromSync = settings.words
 
   ignoreCaseCheckbox.checked = settings.ignoreCase
+  exactMatchCheckbox.checked = settings.exactMatch
 
   websiteContainer.innerHTML = ""
   for (const [name, enabled] of Object.entries(websitesFromSync)) {
@@ -80,15 +82,13 @@ async function saveOptions() {
     websiteDict[key] = val
   })
 
-  
-  const ignoreCase = ignoreCaseCheckbox.checked
   const oldSettings = await Settings.getSettingsOrDefault()
   
   const newSettings: LatestSettings = {
     version: oldSettings.version,
     words: words,
-    ignoreCase: ignoreCase,
-    exactMatch: oldSettings.exactMatch,
+    ignoreCase: ignoreCaseCheckbox.checked,
+    exactMatch: exactMatchCheckbox.checked,
     websites: websiteDict
   }
 
