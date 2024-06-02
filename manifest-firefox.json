@@ -8,7 +8,7 @@
     "default_popup": "out/options.html"
   },
   "background": {
-    "page": "out/background.html"
+    "scripts": ["out/background.js"]
   },
   "permissions": [
     "tabs",
